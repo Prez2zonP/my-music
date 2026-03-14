@@ -9,23 +9,56 @@
       text-align: center;
       padding: 50px;
       background: #f0f0f0;
+      margin: 0;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
     }
     h1 {
       color: #333;
+      margin-bottom: 30px;
     }
     audio {
       width: 100%;
-      max-width: 400px;
+      max-width: 500px;
       margin: 20px auto;
+    }
+    .play-btn {
+      display: inline-block;
+      padding: 20px 40px;
+      font-size: 24px;
+      background: #1db954;
+      color: white;
+      border: none;
+      border-radius: 50px;
+      cursor: pointer;
+      margin-top: 20px;
+      transition: transform 0.2s, background 0.2s;
+    }
+    .play-btn:hover {
+      background: #1ed760;
+      transform: scale(1.05);
     }
   </style>
 </head>
 <body>
   <h1>🎧 Morgenstern & Элджей - Кадиллак</h1>
-  <audio controls>
+  <audio id="player" controls autoplay preload="auto">
     <source src="trackmorgen-cadilak.mp3" type="audio/mpeg">
     Ваш браузер не поддерживает аудио.
   </audio>
+  <button class="play-btn" onclick="document.getElementById('player').play()">▶ ИГРАТЬ</button>
   <p><small>Ссылка для скачивания: <a href="trackmorgen-cadilak.mp3" download>скачать MP3</a></small></p>
+  <script>
+    // Попытка автозапуска
+    document.addEventListener('DOMContentLoaded', function() {
+      var player = document.getElementById('player');
+      player.play().catch(function(e) {
+        console.log('Автозапуск заблокирован браузером:', e);
+      });
+    });
+  </script>
 </body>
 </html>
