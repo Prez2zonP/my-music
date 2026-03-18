@@ -3,61 +3,6 @@
 <head>
   <meta charset="UTF-8" />
   <title>Моя музыка</title>
-  <style>
-    body {
-      font-family: Arial, sans-serif;
-      text-align: center;
-      padding: 50px;
-      background: #f0f0f0;
-      margin: 0;
-      min-height: 100vh;
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      align-items: center;
-    }
-    h1 {
-      color: #333;
-      margin-bottom: 30px;
-    }
-    audio {
-      width: 100%;
-      max-width: 500px;
-      margin: 20px auto;
-    }
-    .play-btn {
-      display: inline-block;
-      padding: 20px 40px;
-      font-size: 24px;
-      background: #1db954;
-      color: white;
-      border: none;
-      border-radius: 50px;
-      cursor: pointer;
-      margin-top: 20px;
-      transition: transform 0.2s, background 0.2s;
-    }
-    .play-btn:hover {
-      background: #1ed760;
-      transform: scale(1.05);
-    }
-    .next-btn {
-      display: inline-block;
-      padding: 15px 30px;
-      font-size: 18px;
-      background: #3498db;
-      color: white;
-      border: none;
-      border-radius: 50px;
-      cursor: pointer;
-      margin-top: 10px;
-      transition: transform 0.2s, background 0.2s;
-    }
-    .next-btn:hover {
-      background: #5dade2;
-      transform: scale(1.05);
-    }
-  </style>
 </head>
 <body>
   <h1 id="title">🎧 Загрузка...</h1>
@@ -65,8 +10,6 @@
     <source src="" type="audio/mpeg">
     Ваш браузер не поддерживает аудио.
   </audio>
-  <button class="play-btn" onclick="document.getElementById('player').play()">▶ ИГРАТЬ</button>
-  <button class="next-btn" onclick="playRandom()">🔀 СЛЕДУЮЩАЯ</button>
   <p><small>Ссылка для скачивания: <a id="download-link" href="" download>скачать MP3</a></small></p>
   <script>
     const tracks = [
@@ -78,34 +21,20 @@
     function playRandom() {
       const randomIndex = Math.floor(Math.random() * tracks.length);
       const track = tracks[randomIndex];
-      
+
       document.getElementById('title').textContent = track.title;
       document.getElementById('player').querySelector('source').src = track.file;
       document.getElementById('download-link').href = track.file;
-      
+
       document.getElementById('player').load();
-      document.getElementById('player').play().then(() => {
-        console.log('Автозапуск успешен!');
-      }).catch(function(e) {
-        console.log('Автозапуск заблокирован браузером. Нужно взаимодействие:', e);
+      document.getElementById('player').play().catch(function(e) {
+        console.log('Автозапуск заблокирован:', e);
       });
     }
 
-    // Автозапуск при загрузке страницы
     document.addEventListener('DOMContentLoaded', function() {
       playRandom();
     });
-
-    // Попытка автозапуска при любом клике на странице (если первый раз заблокировали)
-    let firstInteraction = false;
-    document.addEventListener('click', function() {
-      if (!firstInteraction) {
-        firstInteraction = true;
-        document.getElementById('player').play().catch(function(e) {
-          console.log('Не удалось запустить:', e);
-        });
-      }
-    }, { once: true });
   </script>
 </body>
 </html>
