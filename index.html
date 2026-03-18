@@ -6,7 +6,7 @@
 </head>
 <body>
   <h1 id="title">🎧 Загрузка...</h1>
-  <audio id="player" controls autoplay preload="auto">
+  <audio id="player" controls preload="auto">
     <source src="" type="audio/mpeg">
     Ваш браузер не поддерживает аудио.
   </audio>
@@ -18,22 +18,19 @@
       { file: "morgen-povod.mp3", title: "🎧 MORGENSHTERN - ПОВОД" }
     ];
 
-    function playRandom() {
-      const randomIndex = Math.floor(Math.random() * tracks.length);
-      const track = tracks[randomIndex];
+    const randomIndex = Math.floor(Math.random() * tracks.length);
+    const track = tracks[randomIndex];
 
-      document.getElementById('title').textContent = track.title;
-      document.getElementById('player').querySelector('source').src = track.file;
-      document.getElementById('download-link').href = track.file;
-
-      document.getElementById('player').load();
-      document.getElementById('player').play().catch(function(e) {
+    document.getElementById('title').textContent = track.title;
+    document.getElementById('download-link').href = track.file;
+    
+    const player = document.getElementById('player');
+    player.querySelector('source').src = track.file;
+    
+    player.addEventListener('loadedmetadata', function() {
+      player.play().catch(function(e) {
         console.log('Автозапуск заблокирован:', e);
       });
-    }
-
-    document.addEventListener('DOMContentLoaded', function() {
-      playRandom();
     });
   </script>
 </body>
