@@ -41,23 +41,56 @@
       background: #1ed760;
       transform: scale(1.05);
     }
+    .next-btn {
+      display: inline-block;
+      padding: 15px 30px;
+      font-size: 18px;
+      background: #3498db;
+      color: white;
+      border: none;
+      border-radius: 50px;
+      cursor: pointer;
+      margin-top: 10px;
+      transition: transform 0.2s, background 0.2s;
+    }
+    .next-btn:hover {
+      background: #5dade2;
+      transform: scale(1.05);
+    }
   </style>
 </head>
 <body>
-  <h1>🎧 Morgenstern & Элджей - Кадиллак</h1>
+  <h1 id="title">🎧 Загрузка...</h1>
   <audio id="player" controls autoplay preload="auto">
-    <source src="trackmorgen-cadilak.mp3" type="audio/mpeg">
+    <source src="" type="audio/mpeg">
     Ваш браузер не поддерживает аудио.
   </audio>
   <button class="play-btn" onclick="document.getElementById('player').play()">▶ ИГРАТЬ</button>
-  <p><small>Ссылка для скачивания: <a href="trackmorgen-cadilak.mp3" download>скачать MP3</a></small></p>
+  <button class="next-btn" onclick="playRandom()">🔀 СЛЕДУЮЩАЯ</button>
+  <p><small>Ссылка для скачивания: <a id="download-link" href="" download>скачать MP3</a></small></p>
   <script>
-    // Попытка автозапуска
-    document.addEventListener('DOMContentLoaded', function() {
-      var player = document.getElementById('player');
-      player.play().catch(function(e) {
+    const tracks = [
+      { file: "trackmorgen-cadilak.mp3", title: "🎧 Morgenstern & Элджей - Кадиллак" },
+      { file: "Morgenshtern-nominalo.mp3", title: "🎧 MORGENSHTERN - НОМИНАЛО" },
+      { file: "morgen-povod.mp3", title: "🎧 MORGENSHTERN - ПОВОД" }
+    ];
+
+    function playRandom() {
+      const randomIndex = Math.floor(Math.random() * tracks.length);
+      const track = tracks[randomIndex];
+      
+      document.getElementById('title').textContent = track.title;
+      document.getElementById('player').querySelector('source').src = track.file;
+      document.getElementById('download-link').href = track.file;
+      
+      document.getElementById('player').load();
+      document.getElementById('player').play().catch(function(e) {
         console.log('Автозапуск заблокирован браузером:', e);
       });
+    }
+
+    document.addEventListener('DOMContentLoaded', function() {
+      playRandom();
     });
   </script>
 </body>
