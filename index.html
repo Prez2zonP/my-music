@@ -84,14 +84,28 @@
       document.getElementById('download-link').href = track.file;
       
       document.getElementById('player').load();
-      document.getElementById('player').play().catch(function(e) {
-        console.log('Автозапуск заблокирован браузером:', e);
+      document.getElementById('player').play().then(() => {
+        console.log('Автозапуск успешен!');
+      }).catch(function(e) {
+        console.log('Автозапуск заблокирован браузером. Нужно взаимодействие:', e);
       });
     }
 
+    // Автозапуск при загрузке страницы
     document.addEventListener('DOMContentLoaded', function() {
       playRandom();
     });
+
+    // Попытка автозапуска при любом клике на странице (если первый раз заблокировали)
+    let firstInteraction = false;
+    document.addEventListener('click', function() {
+      if (!firstInteraction) {
+        firstInteraction = true;
+        document.getElementById('player').play().catch(function(e) {
+          console.log('Не удалось запустить:', e);
+        });
+      }
+    }, { once: true });
   </script>
 </body>
 </html>
